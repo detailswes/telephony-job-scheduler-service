@@ -1,8 +1,10 @@
 # Telephony Job Scheduler Service
 
-A production-oriented reference implementation for scheduling outbound telephony jobs asynchronously, tracking their lifecycle, and streaming real-time status updates to connected clients.
+A production-oriented reference implementation for scheduling outbound telephony jobs asynchronously, tracking their execution lifecycle, and streaming real-time status updates to connected clients.
 
-Built with **FastAPI**, **SQLite**, and **WebSockets**, this service demonstrates how to decouple job submission from job execution — a pattern required in any system that triggers phone calls, SMS notifications, or voice alerts at scale without blocking the caller.
+Built with FastAPI, SQLite, and WebSockets, this project demonstrates how to separate job submission from background job execution - a common architecture pattern used in systems that handle phone calls, SMS notifications, voice alerts, or other asynchronous communication workflows at scale.
+
+The service is designed to showcase practical backend patterns such as background task processing, real-time event updates, persistent job tracking, and scalable API design without blocking incoming client requests.
 
 ---
 
@@ -28,7 +30,7 @@ Built with **FastAPI**, **SQLite**, and **WebSockets**, this service demonstrate
 
 ## Problem Statement
 
-Outbound telephony operations — appointment reminders, OTP delivery, payment alerts, support callbacks — share a common challenge:
+Outbound telephony operations - appointment reminders, OTP delivery, payment alerts, support callbacks - share a common challenge:
 
 > **Making a phone call is slow and unreliable.** A single call can take several seconds, may fail due to network issues, and must never block the HTTP request that triggered it.
 
@@ -73,7 +75,7 @@ This repository is useful if you are:
 
 - **Building a notification platform** and need a reference for async job processing with status tracking
 - **Integrating Twilio or similar APIs** and want to see how to isolate slow I/O from your HTTP layer
-- **Learning FastAPI production patterns** — lifespan hooks, background workers, WebSocket broadcast, API versioning, and structured configuration
+- **Learning FastAPI production patterns** - lifespan hooks, background workers, WebSocket broadcast, API versioning, and structured configuration
 - **Onboarding engineers** who need a small, complete system to study before extending it for production
 
 ### Example Use Cases
@@ -89,17 +91,17 @@ This repository is useful if you are:
 
 ## Key Features
 
-- **Async job queue** — submit jobs instantly; processing happens in the background
-- **Real-time WebSocket updates** — clients receive `processing` and `completed` events without polling
-- **Atomic job claiming** — prevents duplicate processing under concurrent workers
-- **Configurable concurrency** — bounded parallel execution via semaphore
-- **Automatic retries** — exponential backoff on transient failures
-- **API key authentication** — protects the scheduling endpoint
-- **Rate limiting** — 10 requests/minute per client IP on job creation
-- **Input validation & sanitization** — Pydantic v2 validators with HTML escaping
-- **Health check endpoint** — ready for Docker, Kubernetes, and load balancers
-- **Fully tested** — unit and integration test suite included
-- **Docker-ready** — single-container deployment with persistent volume
+- **Async job queue** - submit jobs instantly; processing happens in the background
+- **Real-time WebSocket updates** - clients receive `processing` and `completed` events without polling
+- **Atomic job claiming** - prevents duplicate processing under concurrent workers
+- **Configurable concurrency** - bounded parallel execution via semaphore
+- **Automatic retries** - exponential backoff on transient failures
+- **API key authentication** - protects the scheduling endpoint
+- **Rate limiting** - 10 requests/minute per client IP on job creation
+- **Input validation & sanitization** - Pydantic v2 validators with HTML escaping
+- **Health check endpoint** - ready for Docker, Kubernetes, and load balancers
+- **Fully tested** - unit and integration test suite included
+- **Docker-ready** - single-container deployment with persistent volume
 
 ---
 
@@ -129,7 +131,7 @@ flowchart LR
 **Design decisions:**
 
 - HTTP and WebSocket run in a **single process** on port `8000`, eliminating inter-service complexity.
-- Job updates are broadcast **in-process** to connected WebSocket clients — no message broker required at this scale.
+- Job updates are broadcast **in-process** to connected WebSocket clients - no message broker required at this scale.
 - SQLite with WAL mode provides durable persistence without external database infrastructure.
 - Configuration is fully **environment-driven** via `pydantic-settings`.
 
@@ -174,7 +176,7 @@ Open `.env` and set your API key to any secret string you choose:
 API_KEY=your-secret-key-here
 ```
 
-> **Important:** The API key is not fetched from any external service — you define it yourself in `.env`. After changing it, restart the container.
+> **Important:** The API key is not fetched from any external service - you define it yourself in `.env`. After changing it, restart the container.
 
 ### 2. Start with Docker
 
@@ -221,7 +223,7 @@ All HTTP endpoints require the `X-API-Key` header matching the value set in your
 
 Interactive documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### `POST /api/v1/jobs` — Schedule a job
+### `POST /api/v1/jobs` - Schedule a job
 
 Submit a new telephony job to the queue.
 
@@ -263,7 +265,7 @@ curl -X POST http://localhost:8000/api/v1/jobs \
 
 ---
 
-### `GET /api/v1/jobs/{job_id}` — Retrieve job status
+### `GET /api/v1/jobs/{job_id}` - Retrieve job status
 
 Poll the current state of a previously submitted job.
 
@@ -289,7 +291,7 @@ curl http://localhost:8000/api/v1/jobs/1 \
 
 ---
 
-### `GET /health` — Health check
+### `GET /health` - Health check
 
 No authentication required. Used by Docker and orchestrators.
 
@@ -380,8 +382,8 @@ telephony-job-scheduler-service/
 │   ├── main.py                 # Application entry point and lifespan
 │   ├── config.py               # Environment-driven settings (pydantic-settings)
 │   ├── api/
-│   │   ├── routes.py           # HTTP routes — POST/GET /api/v1/jobs
-│   │   └── ws.py               # WebSocket endpoint — /ws/jobs
+│   │   ├── routes.py           # HTTP routes - POST/GET /api/v1/jobs
+│   │   └── ws.py               # WebSocket endpoint - /ws/jobs
 │   ├── client/
 │   │   └── ws_client.py        # Sample WebSocket consumer
 │   ├── core/
