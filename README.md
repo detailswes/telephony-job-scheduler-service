@@ -1,10 +1,10 @@
 # Telephony Job Scheduler Service
 
-A production-oriented reference implementation for scheduling outbound telephony jobs asynchronously, tracking their execution lifecycle, and streaming real-time status updates to connected clients.
+A production-style backend service designed to manage outbound telephony jobs, track their progress, and deliver live status updates to connected clients in real time.
 
-Built with FastAPI, SQLite, and WebSockets, this project demonstrates how to separate job submission from background job execution - a common architecture pattern used in systems that handle phone calls, SMS notifications, voice alerts, or other asynchronous communication workflows at scale.
+Built with FastAPI, SQLite, and WebSockets, this project demonstrates how systems can handle tasks like phone calls, SMS notifications, or voice alerts in the background without slowing down the main application.
 
-The service is designed to showcase practical backend patterns such as background task processing, real-time event updates, persistent job tracking, and scalable API design without blocking incoming client requests.
+Instead of making users wait while a task is processed, jobs are queued and handled asynchronously while the system continuously shares live progress updates. The project is designed to showcase practical backend patterns commonly used in modern real-world applications, including background processing, real-time communication, job tracking, and scalable API architecture.
 
 ---
 
